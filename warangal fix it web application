@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Warangal Fix-It: civic issue reporting and tracking</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#f1f4f6;--card:#fff;--ink:#12222b;--mute:#586a73;--line:#d9e0e4;--navy:#0b2a3a;--teal:#0f766e;--amber:#e8a317;--green:#2e8b57;--red:#c2410c;--on:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d181e;--card:#16252d;--ink:#e8eff2;--mute:#9bb0b9;--line:#2a3d47;--navy:#071820;--teal:#2dd4bf;--amber:#f2b73d;--green:#4ade80;--red:#fb923c;--on:#06201d}}
+:root[data-theme="dark"]{--bg:#0d181e;--card:#16252d;--ink:#e8eff2;--mute:#9bb0b9;--line:#2a3d47;--navy:#071820;--teal:#2dd4bf;--amber:#f2b73d;--green:#4ade80;--red:#fb923c;--on:#06201d}
+html{scroll-padding-top:70px;scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 "Public Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","Public Sans",system-ui,sans-serif;line-height:1.12;margin:0}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+.util{background:var(--navy);color:#c9d8df;font-size:.8rem;padding:7px 0}
+.util .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+header.top{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+header.top .wrap{display:flex;justify-content:space-between;align-items:center;height:62px}
+.logo{font:800 1.2rem "Bricolage Grotesque",sans-serif;display:flex;gap:10px;align-items:center;text-decoration:none;color:var(--ink)}
+.logo i{width:28px;height:28px;border-radius:50% 50% 50% 0;background:var(--teal);transform:rotate(-45deg);display:block}
+nav{display:flex;align-items:center;gap:22px}
+nav a{font-weight:600;font-size:.92rem;text-decoration:none;color:var(--mute)}
+nav a:hover{color:var(--ink)}
+.btn{border:0;border-radius:9px;background:var(--teal);color:var(--on);font:700 .95rem "Public Sans",sans-serif;padding:11px 18px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:none;color:var(--ink);border:1px solid var(--line)}
+.btn.ghost[aria-pressed="true"]{background:var(--amber);color:#1b1300;border-color:var(--amber)}
+.hero{background:linear-gradient(180deg,var(--navy),#0f3a4d);color:#fff;padding:48px 0 0}
+.hero-g{display:grid;grid-template-columns:1.05fr 1fr;gap:44px;align-items:start}
+.hero h1{font-size:clamp(2.1rem,4.8vw,3.5rem);font-weight:800;letter-spacing:-.02em}
+.hero p.lead{color:#bcd0d8;font-size:1.08rem;max-width:48ch;margin:16px 0 0}
+.trust{display:flex;gap:18px;flex-wrap:wrap;margin-top:22px;font-size:.88rem;color:#d7e4e9}
+.trust span:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--amber);margin-right:8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px}
+.form{color:var(--ink);box-shadow:0 18px 40px rgba(0,0,0,.28)}
+.form h2{font-size:1.25rem;margin-bottom:12px}
+.form label{display:block;font-weight:600;font-size:.88rem;margin:14px 0 6px}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+textarea{min-height:84px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.auto{margin-top:12px;border:1px dashed var(--teal);border-radius:10px;padding:11px 14px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.auto small{color:var(--mute);display:block;font-size:.76rem}
+.auto strong{font:700 1rem "Bricolage Grotesque",sans-serif}
+.drop{border:2px dashed var(--line);border-radius:10px;padding:16px;text-align:center;color:var(--mute);font-size:.9rem;cursor:pointer;display:block;margin:0!important}
+.drop:hover,.drop.over{border-color:var(--teal);color:var(--ink)}
+.drop input{display:none}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.thumbs div{position:relative;width:72px;height:72px}
+.thumbs img{width:100%;height:100%;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+.thumbs button{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;border:0;background:var(--red);color:#fff;cursor:pointer;font-size:.8rem;line-height:1}
+.submit{width:100%;margin-top:16px;padding:14px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);margin-top:44px;border-top:1px solid rgba(255,255,255,.14)}
+.kpis div{padding:20px 12px 24px;border-right:1px solid rgba(255,255,255,.14)}
+.kpis div:last-child{border:0}
+.kpis b{font:800 2.2rem "Bricolage Grotesque",sans-serif;display:block;line-height:1}
+.kpis span{color:#a9c0ca;font-size:.85rem}
+section{padding:48px 0}
+section h2.t{font-size:clamp(1.6rem,3.2vw,2.2rem)}
+.sub{color:var(--mute);margin:6px 0 24px;max-width:62ch}
+.two{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+.bars{display:grid;gap:13px}
+.bar{display:grid;grid-template-columns:140px 1fr 86px;gap:12px;align-items:center;font-size:.9rem}
+.track{height:14px;background:var(--bg);border-radius:7px;overflow:hidden;display:flex}
+.track i{display:block;height:100%}
+.donut{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.ring{width:130px;height:130px;border-radius:50%;display:grid;place-items:center}
+.ring div{width:92px;height:92px;border-radius:50%;background:var(--card);display:grid;place-items:center;font:800 1.5rem "Bricolage Grotesque",sans-serif}
+.leg{font-size:.9rem;display:grid;gap:6px}
+.leg i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:8px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:7px 14px;font:600 .86rem "Public Sans",sans-serif;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.feed{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.issue{padding:0;overflow:hidden;cursor:pointer;display:flex;flex-direction:column}
+.issue:hover{border-color:var(--teal)}
+.ph{height:150px;background:var(--bg);position:relative;display:grid;place-items:center;color:var(--mute);font-size:.82rem}
+.ph img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.ph em{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.65);color:#fff;font-style:normal;font-size:.74rem;padding:2px 8px;border-radius:99px}
+.ib{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1}
+.top2{display:flex;justify-content:space-between;font-size:.8rem;color:var(--mute);gap:8px}
+.tag{font-weight:700;font-size:.78rem;padding:2px 10px;border-radius:99px;border:1px solid currentColor}
+.issue h3{font-size:1.08rem;margin:10px 0 4px}
+.issue p{margin:0 0 12px;color:var(--mute);font-size:.9rem}
+.steps{display:flex;gap:4px;margin:auto 0 8px}
+.steps i{flex:1;height:6px;border-radius:3px;background:var(--line)}
+.steps i.on{background:var(--c)}
+.meta{display:flex;justify-content:space-between;align-items:center;font-size:.84rem;gap:8px;flex-wrap:wrap}
+.status{font-weight:700;color:var(--c)}
+.mini{border:1px solid var(--line);background:none;color:var(--ink);border-radius:8px;padding:5px 10px;font:600 .8rem "Public Sans",sans-serif;cursor:pointer}
+.mini.adv{background:var(--amber);border-color:var(--amber);color:#1b1300}
+.how{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.how h3{font-size:1.05rem;margin:10px 0 6px}
+.how p{margin:0;color:var(--mute);font-size:.9rem}
+.how b{width:34px;height:34px;border-radius:50%;background:var(--teal);color:var(--on);display:grid;place-items:center;font-weight:700}
+dialog{border:0;border-radius:14px;padding:0;max-width:560px;width:calc(100% - 32px);background:var(--card);color:var(--ink);max-height:90vh}
+dialog::backdrop{background:rgba(5,15,20,.6)}
+.dm{padding:22px}
+.gal{display:grid;gap:8px;margin:12px 0}
+.gal img{width:100%;max-height:260px;object-fit:cover;border-radius:10px}
+.tl{list-style:none;margin:14px 0 0;padding:0 0 0 18px;border-left:2px solid var(--line)}
+.tl li{position:relative;padding:0 0 14px 14px;font-size:.9rem;color:var(--mute)}
+.tl li:before{content:"";position:absolute;left:-25px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--line);border:2px solid var(--card)}
+.tl li.done{color:var(--ink)}
+.tl li.done:before{background:var(--green)}
+footer{background:var(--navy);color:#a9c0ca;padding:26px 0 36px;font-size:.86rem}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:10px;opacity:0;transition:.25s;pointer-events:none;max-width:90vw;z-index:20}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:900px){.hero-g,.two{grid-template-columns:1fr}.kpis,.how{grid-template-columns:1fr 1fr}nav a{display:none}.kpis div:nth-child(2){border-right:0}}
+@media(max-width:480px){.kpis,.how,.row,.auto{grid-template-columns:1fr}.feed{grid-template-columns:1fr}.bar{grid-template-columns:100px 1fr 70px}.kpis div{border-right:0;border-bottom:1px solid rgba(255,255,255,.14)}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="util"><div class="wrap"><span>Greater Warangal, Telangana · Citizen services</span><span>Helpline for emergencies: 112</span></div></div>
+<header class="top"><div class="wrap">
+<a class="logo" href="#"><i></i>Warangal Fix-It</a>
+<nav><a href="#stats">City scorecard</a><a href="#feed">Reported issues</a><a href="#how">How it works</a>
+<button class="btn ghost" id="officer" aria-pressed="false" title="Demo: lets you move issues to the next stage">Officer view</button></nav>
+</div></header>
+
+<div class="hero"><div class="wrap">
+<div class="hero-g">
+<div>
+<h1>Report a civic problem. Track it until it is fixed.</h1>
+<p class="lead">Describe the issue and add photos. It is sorted to the right department automatically, given a target fix date, and tracked in public.</p>
+<div class="trust"><span>Auto-sorted to the right department</span><span>Photo evidence</span><span>Public status and fix dates</span></div>
+</div>
+<form class="card form" id="form" aria-label="Report a problem">
+<h2>Report a problem</h2>
+<label for="desc" style="margin-top:0">What is wrong?</label>
+<textarea id="desc" placeholder="Example: Big pothole near the bus stop, two bikes fell yesterday"></textarea>
+<div class="auto" aria-live="polite">
+<div><small>Category (automatic)</small><strong id="cat">Start typing…</strong></div>
+<div><small>Expected fix time</small><strong id="eta">–</strong></div>
+</div>
+<label for="file">Photos (up to 3)</label>
+<label class="drop" id="drop" for="file"><input id="file" type="file" accept="image/*" multiple>Tap to add photos or drop them here</label>
+<div class="thumbs" id="thumbs"></div>
+<div class="row">
+<div><label for="area">Area</label><select id="area"><option>Hanamkonda</option><option>Kazipet</option><option>Subedari</option><option>Naimnagar</option><option>Hunter Road</option><option>Kakaji Colony</option><option>Waddepally</option><option>Warangal Fort</option></select></div>
+<div><label for="name">Your name (optional)</label><input id="name" placeholder="Anonymous"></div>
+</div>
+<button class="btn submit" type="submit">Post this problem</button>
+</form>
+</div>
+<div class="kpis">
+<div><b id="hRes">0</b><span>problems resolved</span></div>
+<div><b id="hRate">0%</b><span>resolution rate</span></div>
+<div><b id="hAvg">0 days</b><span>average time to fix</span></div>
+<div><b id="hTot">0</b><span>reported by citizens</span></div>
+</div>
+</div></div>
+
+<main class="wrap">
+<section id="stats">
+<h2 class="t">City scorecard</h2>
+<p class="sub">Figures update the moment a status changes, so residents and officials see the same picture.</p>
+<div class="two">
+<div class="card"><h3 style="font-size:1.05rem;margin-bottom:16px">Resolved and open, by category</h3><div class="bars" id="bars"></div></div>
+<div class="card"><h3 style="font-size:1.05rem;margin-bottom:16px">Where issues stand</h3><div class="donut"><div class="ring" id="ring"><div id="ringN">0%</div></div><div class="leg" id="leg"></div></div></div>
+</div>
+</section>
+
+<section id="feed" style="padding-top:8px">
+<h2 class="t">Reported issues</h2>
+<p class="sub">Open any issue to see its photos and timeline. In Officer view, a button moves it to the next stage.</p>
+<div class="chips" id="chips" role="group" aria-label="Filter by category"></div>
+<div class="feed" id="list"></div>
+</section>
+
+<section id="how">
+<h2 class="t">How it works</h2>
+<p class="sub">From a phone photo to a fixed road, in four steps.</p>
+<div class="how">
+<div class="card"><b>1</b><h3>Post with photos</h3><p>Write what you see, add pictures and pick your area.</p></div>
+<div class="card"><b>2</b><h3>Sorted automatically</h3><p>The text is read and the category is picked, such as potholes, drainage or water.</p></div>
+<div class="card"><b>3</b><h3>Assigned</h3><p>It goes to the responsible department with a target fix date.</p></div>
+<div class="card"><b>4</b><h3>Resolved</h3><p>The status turns to resolved and counts on the public scorecard.</p></div>
+</div>
+</section>
+</main>
+<footer><div class="wrap">Warangal Fix-It is a hackathon prototype. Sample data is shown for demonstration.</div></footer>
+
+<dialog id="dlg"><div class="dm" id="dm"></div></dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+var CATS={
+"Potholes & roads":{c:"#c2410c",eta:5,dept:"Roads & Buildings",k:["pothole","road","crack","speed breaker","footpath","bridge","tar"]},
+"Drainage":{c:"#2f5fa8",eta:3,dept:"Drainage & Sewerage",k:["drain","sewage","sewer","manhole","overflow","clog","stagnant","gutter","flood"]},
+"Water supply":{c:"#0f766e",eta:2,dept:"Water Supply",k:["water","tap","pipeline","leak","supply","bore","tanker","contaminated"]},
+"Streetlights":{c:"#b7791f",eta:4,dept:"Electrical",k:["light","lamp","dark","pole","wire","electric"]},
+"Garbage & sanitation":{c:"#6b7d3a",eta:1,dept:"Sanitation",k:["garbage","trash","waste","dump","bin","smell","litter","mosquito"]},
+"Other":{c:"#6b6b7a",eta:7,dept:"General Administration",k:[]}};
+var STAGES=["Reported","Assigned","In progress","Resolved"],SC=["#c2410c","#e8a317","#2f5fa8","#2e8b57"];
+function ago(d){var x=new Date();x.setDate(x.getDate()-d);return x}
+var issues=[
+["Deep pothole on main road","Near the bus stop. Two bikes slipped here this week.","Hanamkonda","Potholes & roads",3,9,48],
+["Drain overflowing onto the street","Sewage water on the lane after every rain.","Subedari","Drainage",2,3,35],
+["No water supply for 3 days","Tap has been dry since Tuesday morning.","Kazipet","Water supply",1,2,61],
+["Streetlights not working","The whole stretch is dark after 7 pm.","Naimnagar","Streetlights",3,6,22],
+["Garbage not collected","Dustbin overflowing, bad smell near the school.","Hunter Road","Garbage & sanitation",3,2,40],
+["Open manhole near market","Cover is missing and it is unsafe at night.","Warangal Fort","Drainage",3,7,57],
+["Pipeline leaking for a week","Clean water is running down the road.","Kakaji Colony","Water supply",2,4,18],
+["Broken road near junction","Cracks and loose stones, buses slow down.","Waddepally","Potholes & roads",0,1,29],
+["Stagnant water breeding mosquitoes","Blocked gutter behind the temple.","Hanamkonda","Drainage",0,0,14],
+["Street lamp flickering","Pole near the park flickers all night.","Kazipet","Streetlights",1,2,9]
+].map(function(a,n){return{id:1001+n,t:a[0],d:a[1],a:a[2],c:a[3],s:a[4],date:ago(a[5]),up:a[6],on:false,img:[]}});
+var filter="All",officer=false,pend=[];
+function $(id){return document.getElementById(id)}
+function esc(s){return s.replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function classify(t){t=t.toLowerCase();var b="Other",h=0;for(var k in CATS){var n=0;CATS[k].k.forEach(function(w){if(t.indexOf(w)>-1)n++});if(n>h){h=n;b=k}}return b}
+function due(i){var d=new Date(i.date);d.setDate(d.getDate()+CATS[i.c].eta);return d}
+function fmt(d){return d.toLocaleDateString("en-IN",{day:"numeric",month:"short"})}
+function etaText(i){if(i.s===3)return"Fixed";var l=Math.ceil((due(i)-new Date())/864e5);return l>0?"Due in "+l+" day"+(l>1?"s":""):"Due "+fmt(due(i))}
+function render(){
+var tot=issues.length,cnt=[0,0,0,0],avg=0;
+issues.forEach(function(i){cnt[i.s]++;if(i.s===3)avg+=CATS[i.c].eta});
+var res=cnt[3],rate=Math.round(res/tot*100);
+$("hRes").textContent=res;$("hRate").textContent=rate+"%";$("hTot").textContent=tot;$("hAvg").textContent=(res?(avg/res).toFixed(1):0)+" days";
+var bh="";Object.keys(CATS).forEach(function(k){var a=issues.filter(function(i){return i.c===k}),r=a.filter(function(i){return i.s===3}).length;if(!a.length)return;
+bh+='<div class="bar"><span>'+k+'</span><div class="track" title="'+r+' of '+a.length+' resolved"><i style="width:'+r/a.length*100+'%;background:var(--green)"></i><i style="width:'+(a.length-r)/a.length*100+'%;background:'+CATS[k].c+';opacity:.45"></i></div><span>'+r+' / '+a.length+' fixed</span></div>'});
+$("bars").innerHTML=bh;
+var p=0,g=[];cnt.forEach(function(n,x){var a=p,b=p+n/tot*100;g.push(SC[x]+" "+a+"% "+b+"%");p=b});
+$("ring").style.background="conic-gradient("+g.join(",")+")";$("ringN").textContent=rate+"%";
+$("leg").innerHTML=STAGES.map(function(s,x){return'<div><i style="background:'+SC[x]+'"></i>'+s+': '+cnt[x]+'</div>'}).join("");
+$("chips").innerHTML=["All"].concat(Object.keys(CATS)).map(function(k){return'<button class="chip" data-k="'+k+'" aria-pressed="'+(k===filter)+'">'+k+'</button>'}).join("");
+var list=issues.filter(function(i){return filter==="All"||i.c===filter}).sort(function(a,b){return b.date-a.date||b.id-a.id});
+$("list").innerHTML=list.length?list.map(function(i){var col=SC[i.s];
+return'<article class="card issue" style="--c:'+col+'" data-id="'+i.id+'" tabindex="0" role="button" aria-label="Open '+esc(i.t)+'"><div class="ph">'+(i.img.length?'<img src="'+i.img[0]+'" alt="Photo of the problem">'+(i.img.length>1?'<em>'+i.img.length+' photos</em>':''):'No photo added')+'</div><div class="ib"><div class="top2"><span class="tag" style="color:'+CATS[i.c].c+'">'+i.c+'</span><span>#WGL-'+i.id+' · '+i.a+'</span></div><h3>'+esc(i.t)+'</h3><p>'+esc(i.d)+'</p><div class="steps" aria-hidden="true">'+STAGES.map(function(s,x){return'<i class="'+(x<=i.s?'on':'')+'"></i>'}).join("")+'</div><div class="meta"><span><span class="status">'+STAGES[i.s]+'</span> · '+etaText(i)+'</span>'+(officer&&i.s<3?'<button class="mini adv" data-adv="'+i.id+'">Move to '+STAGES[i.s+1]+'</button>':'<button class="mini" data-up="'+i.id+'" aria-pressed="'+i.on+'">Me too '+(i.up+(i.on?1:0))+'</button>')+'</div></div></article>'}).join(""):'<p class="sub">No issues in this category yet. Post the first one above.</p>'}
+function open_(id){var i=issues.filter(function(x){return x.id==id})[0];
+var tl=STAGES.map(function(s,x){var done=x<=i.s;return'<li class="'+(done?'done':'')+'"><b>'+s+'</b>'+(x===0?' · '+fmt(i.date):x===3?' · '+(done?'Completed':'Target '+fmt(due(i))):done?' · Done':'')+'</li>'}).join("");
+$("dm").innerHTML='<div class="top2"><span class="tag" style="color:'+CATS[i.c].c+'">'+i.c+'</span><span>#WGL-'+i.id+'</span></div><h3 style="font-size:1.4rem;margin:10px 0 4px">'+esc(i.t)+'</h3><p style="color:var(--mute);margin:0">'+esc(i.d)+'</p><p style="font-size:.88rem;margin:8px 0 0"><b>Area:</b> '+i.a+' · <b>Department:</b> '+CATS[i.c].dept+'</p>'+(i.img.length?'<div class="gal">'+i.img.map(function(s){return'<img src="'+s+'" alt="Photo of the problem">'}).join("")+'</div>':
